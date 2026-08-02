@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Spanveil — AI Spend Intelligence &amp; Governance</title>
+<meta name="description" content="Monitor, optimize and govern AI spending across your organization. Live cost analysis, recommendations, and reports." />
+<meta property="og:title" content="Spanveil — AI Spend Intelligence & Governance" />
+<meta property="og:description" content="Monitor, optimize and govern AI spending across your organization." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0a0b10; --bg2:#0e1018; --card:#12141d; --card2:#171a26;
+  --line:#1f2333; --line2:#2a2f45;
+  --blue:#4d7cff; --violet:#8b5cf6; --cyan:#22d3ee;
+  --green:#34d399; --amber:#fbbf24; --red:#f87171;
+  --tx:#c9d1e3; --mu:#69718c; --wh:#f2f5fc;
+  --r-lg:20px; --r-md:16px; --r-sm:12px;
+  --shadow:0 8px 32px rgba(0,0,0,.35);
+  --grad:linear-gradient(120deg,var(--blue),var(--violet));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+body{background:var(--bg);color:var(--tx);font-family:"Inter",system-ui,sans-serif;font-size:14.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;background:
+  radial-gradient(700px 400px at 15% -5%,rgba(77,124,255,.09),transparent 60%),
+  radial-gradient(700px 400px at 90% 0%,rgba(139,92,246,.07),transparent 60%);
+  pointer-events:none;z-index:0}
+h1,h2,h3,h4{color:var(--wh);letter-spacing:-.02em;line-height:1.2}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.mono{font-family:"JetBrains Mono",monospace}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+section{position:relative;z-index:1;padding:72px 0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px;display:inline-block}
+.section-title{font-size:clamp(24px,3.2vw,34px);font-weight:800;margin-bottom:8px}
+.section-sub{color:var(--mu);max-width:560px;font-size:14px;margin-bottom:36px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);transition:transform .2s,border-color .2s}
+.card:hover{border-color:var(--line2)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:var(--r-sm);border:1px solid var(--line2);background:var(--card2);color:var(--tx);transition:all .18s;position:relative;overflow:hidden}
+.btn:hover{border-color:var(--blue);color:var(--wh);transform:translateY(-1px)}
+.btn-primary{background:var(--grad);border:none;color:#fff;box-shadow:0 4px 20px rgba(77,124,255,.35)}
+.btn-primary:hover{box-shadow:0 6px 28px rgba(77,124,255,.5);color:#fff}
+.btn-ghost{background:transparent;border-color:transparent}
+.btn-ghost:hover{background:var(--card2);transform:none}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:4px 11px;border-radius:999px;letter-spacing:.02em}
+.badge-blue{background:rgba(77,124,255,.12);color:var(--blue)}
+.badge-violet{background:rgba(139,92,246,.12);color:#a78bfa}
+.badge-green{background:rgba(52,211,153,.12);color:var(--green)}
+.badge-amber{background:rgba(251,191,36,.12);color:var(--amber)}
+.badge-red{background:rgba(248,113,113,.12);color:var(--red)}
+
+/* ---------- Top nav ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;background:rgba(10,11,16,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1200px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 28px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--wh);flex-shrink:0}
+.logo-mark{width:28px;height:28px;border-radius:9px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;box-shadow:0 2px 12px rgba(77,124,255,.45)}
+nav.main{display:flex;gap:2px}
+nav.main a{padding:8px 14px;font-size:13.5px;font-weight:500;color:var(--mu);border-radius:10px;transition:all .15s}
+nav.main a:hover,nav.main a.active{color:var(--wh);background:var(--card2)}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--mu);display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .15s;position:relative}
+.icon-btn:hover{color:var(--wh);border-color:var(--line2);background:var(--card2)}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red);border:2px solid var(--bg)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;cursor:pointer}
+.kbd-hint{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu);padding:7px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer}
+.kbd-hint kbd{font-family:"JetBrains Mono",monospace;font-size:10.5px;background:var(--card2);border:1px solid var(--line2);border-radius:5px;padding:1px 5px}
+.mobile-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none}
+.mobile-toggle span{width:20px;height:2px;background:var(--wh);border-radius:2px;display:block}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--line);flex-direction:column;padding:12px;z-index:899}
+.mobile-menu.open{display:flex}
+.mobile-menu a{padding:13px 16px;font-size:14px;color:var(--mu);border-radius:10px}
+.mobile-menu a:hover{color:var(--wh);background:var(--card)}
+@media (max-width:960px){nav.main,.kbd-hint{display:none}.mobile-toggle{display:flex}}
+
+/* ---------- Hero ---------- */
+.hero{padding-top:140px;padding-bottom:56px}
+.hero h1{font-size:clamp(30px,4.5vw,46px);font-weight:800;margin-bottom:10px}
+.hero .sub{color:var(--mu);font-size:16px;max-width:520px;margin-bottom:40px}
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+@media (max-width:1000px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.kpi{padding:22px;display:flex;flex-direction:column;gap:6px}
+.kpi .label{font-size:11.5px;font-weight:600;color:var(--mu);letter-spacing:.05em;text-transform:uppercase}
+.kpi .value{font-size:clamp(20px,2.2vw,27px);font-weight:800;color:var(--wh);font-variant-numeric:tabular-nums}
+.kpi .delta{font-size:12px;font-weight:600}
+.kpi .delta.up{color:var(--green)}
+.kpi .delta.warn{color:var(--amber)}
+
+/* ---------- Skeleton ---------- */
+.skeleton{position:relative;overflow:hidden;background:var(--card2);border-radius:8px;color:transparent!important}
+.skeleton::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:shimmer 1.4s infinite}
+@keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Analysis workspace ---------- */
+.workspace{display:grid;grid-template-columns:0.9fr 1.1fr;gap:24px}
+@media (max-width:920px){.workspace{grid-template-columns:1fr}}
+.panel{padding:28px}
+.panel h3{font-size:16px;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.field{margin-bottom:20px}
+.field-label{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;font-weight:600;color:var(--mu);margin-bottom:8px}
+.field-label .val{color:var(--wh);font-variant-numeric:tabular-nums;font-weight:700}
+input[type=range]{width:100%;height:5px;-webkit-appearance:none;appearance:none;background:var(--line);border-radius:3px;cursor:pointer;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--grad);border:2px solid var(--bg);box-shadow:0 1px 8px rgba(77,124,255,.6)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--blue);border:2px solid var(--bg)}
+select,.text-input{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--wh);font-size:14px;font-family:inherit;padding:11px 14px;border-radius:var(--r-sm);outline:none;transition:border-color .15s}
+select:focus,.text-input:focus{border-color:var(--blue)}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.result{padding:18px 20px;border-radius:var(--r-md);background:var(--card2);border:1px solid var(--line)}
+.result .label{font-size:11px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.result .value{font-size:21px;font-weight:800;color:var(--wh);font-variant-numeric:tabular-nums}
+.result .value.blue{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.result .value.green{color:var(--green)}
+.eff-bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:8px}
+.eff-fill{height:100%;border-radius:4px;background:var(--grad);transition:width .5s cubic-bezier(.16,1,.3,1)}
+
+/* ---------- Recommendation cards ---------- */
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.rec-card{padding:24px;display:flex;flex-direction:column;gap:12px}
+.rec-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rec-savings{font-size:13px;font-weight:700;color:var(--green);font-variant-numeric:tabular-nums}
+.rec-card h4{font-size:15px}
+.rec-card p{font-size:13px;color:var(--mu)}
+.rec-why{font-size:12.5px;color:var(--tx);background:var(--card2);border-left:3px solid var(--violet);padding:10px 14px;border-radius:0 10px 10px 0}
+.rec-action{align-self:flex-start;margin-top:4px}
+
+/* ---------- Charts ---------- */
+.chart-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}
+.chart-grid .full{grid-column:1/-1}
+@media (max-width:920px){.chart-grid{grid-template-columns:1fr}}
+.chart-card{padding:24px}
+.chart-card .t{font-size:13px;font-weight:600;color:var(--mu);margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+svg.chart{width:100%;display:block}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:12.5px}
+.bar-row .name{width:110px;color:var(--tx);flex-shrink:0;font-weight:500}
+.bar-track{flex:1;height:9px;background:var(--line);border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px;transition:width .6s cubic-bezier(.16,1,.3,1)}
+.bar-row .amt{width:76px;text-align:right;color:var(--wh);font-weight:600;font-variant-numeric:tabular-nums;flex-shrink:0}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:14px;font-size:12px;color:var(--mu)}
+.legend .dot{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+
+/* ---------- Insights ---------- */
+.insights{padding:28px;background:linear-gradient(140deg,rgba(77,124,255,.08),rgba(139,92,246,.06)),var(--card);border:1px solid rgba(77,124,255,.25)}
+.insights h3{display:flex;align-items:center;gap:10px;font-size:16px;margin-bottom:18px}
+.insight-row{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13.5px;align-items:flex-start}
+.insight-row:last-child{border-bottom:none}
+.insight-icon{width:32px;height:32px;border-radius:10px;background:var(--card2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.insight-row b{color:var(--wh);font-weight:600}
+.gov-score{display:flex;align-items:center;gap:14px;margin-top:6px}
+.gov-ring{width:58px;height:58px;flex-shrink:0}
+
+/* ---------- Reports ---------- */
+.report-preview{padding:32px;background:var(--card2);border-radius:var(--r-md);border:1px solid var(--line);margin-bottom:22px}
+.report-preview h4{font-size:17px;margin-bottom:4px}
+.report-preview .date{font-size:12px;color:var(--mu);margin-bottom:20px}
+.report-line{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.report-line b{color:var(--wh);font-variant-numeric:tabular-nums}
+.export-row{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ---------- Pricing (preserved) ---------- */
+.toggle-row{display:flex;align-items:center;gap:12px;margin-bottom:36px}
+.toggle{width:46px;height:26px;border:1px solid var(--line2);position:relative;background:var(--card2);cursor:pointer;border-radius:999px}
+.toggle-knob{position:absolute;top:3px;left:3px;width:18px;height:18px;background:var(--grad);transition:left .2s;border-radius:50%}
+.toggle.on .toggle-knob{left:23px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:860px){.plans{grid-template-columns:1fr}}
+.plan{padding:28px;display:flex;flex-direction:column;position:relative;border-radius:var(--r-lg);background:var(--card);border:1px solid var(--line)}
+.plan.highlight{border:1.5px solid var(--blue);background:linear-gradient(160deg,rgba(77,124,255,.07),transparent),var(--card);box-shadow:0 8px 40px rgba(77,124,255,.18)}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--grad);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 14px;border-radius:999px}
+.plan h3{font-size:17px;margin-bottom:4px}
+.plan .desc{font-size:12.5px;color:var(--mu);margin-bottom:18px;min-height:34px}
+.plan .price{font-size:28px;font-weight:800;color:var(--wh);margin-bottom:20px}
+.plan .price .per{font-size:12.5px;color:var(--mu);font-weight:500}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;flex:1}
+.plan ul li{display:flex;gap:9px;font-size:13px;color:var(--tx)}
+.plan ul li::before{content:"✓";color:var(--green);font-weight:700}
+.plan .btn{width:100%;justify-content:center}
+.plan-status{font-size:12px;margin-top:12px;line-height:1.5}
+.plan-status.g{color:var(--green)}
+.plan-status.r{color:var(--red)}
+
+/* ---------- Command palette ---------- */
+.cmdk-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(6,7,11,.7);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;padding:12vh 20px 20px}
+.cmdk-overlay.open{display:flex}
+.cmdk{width:100%;max-width:520px;background:var(--card);border:1px solid var(--line2);border-radius:var(--r-md);box-shadow:0 24px 80px rgba(0,0,0,.6);overflow:hidden}
+.cmdk input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);color:var(--wh);font-size:15px;font-family:inherit;padding:16px 20px;outline:none}
+.cmdk-list{max-height:320px;overflow-y:auto;padding:8px}
+.cmdk-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;font-size:13.5px;color:var(--tx);cursor:pointer}
+.cmdk-item:hover,.cmdk-item.sel{background:var(--card2);color:var(--wh)}
+.cmdk-item .ic{width:28px;height:28px;border-radius:8px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+
+/* ---------- Toasts ---------- */
+.toast-stack{position:fixed;bottom:24px;right:24px;z-index:3000;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--card);border:1px solid var(--line2);border-radius:var(--r-sm);padding:13px 18px;font-size:13.5px;color:var(--tx);box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;animation:toastIn .3s cubic-bezier(.16,1,.3,1);max-width:340px}
+.toast.ok{border-left:3px solid var(--green)}
+.toast.err{border-left:3px solid var(--red)}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- Footer ---------- */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);background:var(--bg2);padding:56px 28px 40px}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:36px}
+@media (max-width:700px){.footer-grid{grid-template-columns:1fr 1fr}}
+.footer-brand p{font-size:13px;color:var(--mu);max-width:240px;margin-top:12px}
+.footer-col .t{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col a{font-size:13.5px;color:var(--tx)}
+.footer-col a:hover{color:var(--blue)}
+.footer-bottom{max-width:1200px;margin:44px auto 0;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--mu)}
+
+/* ---------- Auth modal ---------- */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:2500;background:rgba(6,7,11,.75);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{max-width:420px;width:100%;padding:32px;position:relative;background:var(--card);border:1px solid var(--line2);border-radius:var(--r-lg);box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--mu);font-size:22px;line-height:1;padding:6px}
+.modal-close:hover{color:var(--wh)}
+.auth-tabs{display:flex;margin-bottom:22px;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.auth-tab{flex:1;padding:11px;background:none;border:none;color:var(--mu);font-size:12.5px;font-weight:600;letter-spacing:.03em}
+.auth-tab.active{background:rgba(77,124,255,.12);color:var(--blue)}
+.auth-field{margin-bottom:16px}
+.auth-field label{display:block;font-size:12px;font-weight:600;color:var(--mu);margin-bottom:7px}
+.auth-error{font-size:12px;color:var(--red);margin-bottom:12px;display:none}
+.auth-note{font-size:11px;color:var(--mu);margin-top:14px;line-height:1.6}
+
+/* ---------- Notifications dropdown ---------- */
+.notif-panel{display:none;position:fixed;top:70px;right:28px;z-index:2400;width:320px;background:var(--card);border:1px solid var(--line2);border-radius:var(--r-md);box-shadow:0 20px 60px rgba(0,0,0,.55);overflow:hidden}
+.notif-panel.open{display:block}
+.notif-head{padding:14px 18px;border-bottom:1px solid var(--line);font-size:13px;font-weight:700;color:var(--wh)}
+.notif-item{padding:13px 18px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--tx);display:flex;gap:10px;align-items:flex-start}
+.notif-item:last-child{border-bottom:none}
+.notif-item .when{font-size:10.5px;color:var(--mu);margin-top:2px}
+
+@media print{
+  header,footer,.toast-stack{display:none!important}
+  section:not(#reports){display:none!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="#top" class="logo"><span class="logo-mark">◈</span>Spanveil</a>
+    <nav class="main" id="mainNav">
+      <a href="#dashboard" class="active">Dashboard</a>
+      <a href="#livedata">Live Data</a>
+      <a href="#analysis">Spend Analysis</a>
+      <a href="#recommendations">Recommendations</a>
+      <a href="#reports">Reports</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <div class="nav-right">
+      <button class="kbd-hint" id="cmdkHintBtn">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+      <button class="btn btn-ghost" id="signInBtn" style="padding:8px 14px;font-size:13px">Sign in</button>
+      <button class="icon-btn" id="notifBtn" aria-label="Notifications">🔔<span class="notif-dot"></span></button>
+      <div class="avatar" id="avatarBtn" title="Account" role="button" tabindex="0">S</div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#dashboard">Dashboard</a>
+  <a href="#analysis">Spend Analysis</a>
+  <a href="#recommendations">Recommendations</a>
+  <a href="#reports">Reports</a>
+  <a href="#pricing">Pricing</a>
+</div>
+
+<!-- ============ HERO DASHBOARD ============ -->
+<section class="hero wrap" id="dashboard" style="padding-left:28px;padding-right:28px">
+  <span class="eyebrow">AI Spend Intelligence</span>
+  <h1 id="top">Welcome back</h1>
+  <p class="sub">Monitor, optimize and govern AI spending across your organization.</p>
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="card kpi reveal"><span class="label">Total AI Spend</span><span class="value" data-kpi="spend">$0</span><span class="delta warn" data-kpi-delta="spend">—</span></div>
+    <div class="card kpi reveal"><span class="label">Monthly Savings</span><span class="value" data-kpi="savings">$0</span><span class="delta up">potential</span></div>
+    <div class="card kpi reveal"><span class="label">AI Agents</span><span class="value" data-kpi="agents">0</span><span class="delta up">active</span></div>
+    <div class="card kpi reveal"><span class="label">Optimization Score</span><span class="value" data-kpi="score">0</span><span class="delta up" data-kpi-delta="score">—</span></div>
+    <div class="card kpi reveal"><span class="label">Budget Utilization</span><span class="value" data-kpi="budget">0%</span><span class="delta warn" data-kpi-delta="budget">—</span></div>
+  </div>
+</section>
+
+<!-- ============ LIVE DATA ============ -->
+<section class="wrap" id="livedata">
+  <span class="eyebrow">Live Data</span>
+  <h2 class="section-title">Connect your real AI spend</h2>
+  <p class="section-sub">Stop estimating. Connect a provider Admin key and Spanveil pulls your actual usage and costs for the last 30 days — keys stay in your browser session and are never stored.</p>
+
+  <div class="chart-grid" style="grid-template-columns:1fr 1fr">
+    <div class="card panel reveal">
+      <h3>🟢 OpenAI <span class="badge badge-blue" id="openaiStatus" style="margin-left:auto">Not connected</span></h3>
+      <div class="auth-field">
+        <label for="openaiKey">Admin API key <span style="font-weight:400">(sk-admin-…)</span></label>
+        <input type="password" id="openaiKey" class="text-input" placeholder="sk-admin-..." autocomplete="off" />
+      </div>
+      <button class="btn btn-primary" id="connectOpenai">Connect OpenAI</button>
+      <p style="font-size:11px;color:var(--mu);margin-top:12px">Create one at platform.openai.com → Settings → Organization → Admin keys. Project keys (sk-…) can't read org usage.</p>
+    </div>
+    <div class="card panel reveal">
+      <h3>🟣 Anthropic <span class="badge badge-violet" id="anthropicStatus" style="margin-left:auto">Not connected</span></h3>
+      <div class="auth-field">
+        <label for="anthropicKey">Admin API key <span style="font-weight:400">(sk-ant-admin…)</span></label>
+        <input type="password" id="anthropicKey" class="text-input" placeholder="sk-ant-admin..." autocomplete="off" />
+      </div>
+      <button class="btn btn-primary" id="connectAnthropic">Connect Anthropic</button>
+      <p style="font-size:11px;color:var(--mu);margin-top:12px">Create one at console.anthropic.com → Settings → Admin keys. Regular API keys can't read org usage.</p>
+    </div>
+  </div>
+  <div class="card panel reveal" style="margin-top:18px;padding:20px 24px">
+    <div style="display:flex;gap:12px;align-items:flex-start;font-size:12.5px;color:var(--mu)">
+      <span style="font-size:16px">🔒</span>
+      <div><b style="color:var(--wh)">How your keys are handled:</b> keys are kept in your browser session only, sent over HTTPS to Spanveil's own API for each fetch, used for that one request against the provider, and never stored, logged, or written to any database. Close the tab and they're gone. Use a dedicated Admin key you can revoke anytime.</div>
+    </div>
+  </div>
+  <div id="liveSummary" style="display:none;margin-top:18px" class="card panel reveal in">
+    <h3>📡 Live spend — last 30 days <span class="badge badge-green" style="margin-left:auto">Live data</span></h3>
+    <div class="result-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="result"><div class="label">Total spend (30d)</div><div class="value blue" id="live-total">$0</div></div>
+      <div class="result"><div class="label">Daily average</div><div class="value" id="live-avg">$0</div></div>
+      <div class="result"><div class="label">Projected month</div><div class="value" id="live-projected">$0</div></div>
+    </div>
+    <div class="chart-card" style="padding:20px 0 0">
+      <div class="t"><span>Daily spend</span></div>
+      <svg class="chart" id="liveChart" viewBox="0 0 440 150" preserveAspectRatio="none" height="150"></svg>
+    </div>
+    <div id="liveModels" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<!-- ============ ANALYSIS WORKSPACE ============ -->
+<section class="wrap" id="analysis">
+  <span class="eyebrow">Spend Analysis</span>
+  <h2 class="section-title">Model your AI costs in real time</h2>
+  <p class="section-sub">Adjust the workload profile on the left — every metric, chart, and recommendation updates instantly.</p>
+
+  <div class="workspace">
+    <div class="card panel reveal">
+      <h3>⚙️ Workload profile</h3>
+      <div class="field">
+        <div class="field-label"><span>AI Model</span></div>
+        <select id="modelSelect" aria-label="AI Model"></select>
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Provider</span><span class="val" id="providerLabel">—</span></div>
+      </div>
+      <div class="field"><div class="field-label"><span>Requests / day / agent</span><span class="val" id="v-requests"></span></div><input type="range" id="requests" min="10" max="10000" step="10" value="500" aria-label="Requests per day"></div>
+      <div class="field"><div class="field-label"><span>Active agents</span><span class="val" id="v-agents"></span></div><input type="range" id="agents" min="1" max="200" value="3" aria-label="Active agents"></div>
+      <div class="field"><div class="field-label"><span>Input tokens / request</span><span class="val" id="v-inputTokens"></span></div><input type="range" id="inputTokens" min="50" max="50000" step="50" value="1500" aria-label="Input tokens"></div>
+      <div class="field"><div class="field-label"><span>Output tokens / request</span><span class="val" id="v-outputTokens"></span></div><input type="range" id="outputTokens" min="50" max="20000" step="50" value="600" aria-label="Output tokens"></div>
+      <div class="field"><div class="field-label"><span>Working days / month</span><span class="val" id="v-daysPerMonth"></span></div><input type="range" id="daysPerMonth" min="1" max="31" value="22" aria-label="Days per month"></div>
+      <div class="field"><div class="field-label"><span>Team size</span><span class="val" id="v-employees"></span></div><input type="range" id="employees" min="1" max="2000" value="25" aria-label="Team size"></div>
+      <div class="field"><div class="field-label"><span>Blended hourly rate (USD)</span><span class="val" id="v-hourlyRate"></span></div><input type="range" id="hourlyRate" min="10" max="200" value="45" aria-label="Hourly rate"></div>
+      <div class="field" style="margin-bottom:6px"><div class="field-label"><span>Monthly budget (USD)</span><span class="val" id="v-budget"></span></div><input type="range" id="budget" min="100" max="100000" step="100" value="10000" aria-label="Monthly budget"></div>
+      <p style="font-size:11.5px;color:var(--mu);margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">Reference list pricing per public provider docs — rates change often. Confirm current pricing before budgeting.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card panel reveal">
+        <h3>📊 Live results</h3>
+        <div class="result-grid">
+          <div class="result"><div class="label">Monthly cost</div><div class="value blue" id="out-monthly">$0</div></div>
+          <div class="result"><div class="label">Annual cost</div><div class="value" id="out-annual">$0</div></div>
+          <div class="result"><div class="label">Savings opportunity</div><div class="value green" id="out-savings">$0</div></div>
+          <div class="result"><div class="label">ROI multiple</div><div class="value" id="out-roi">0×</div></div>
+        </div>
+        <div class="result">
+          <div class="label">Efficiency score</div>
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <div class="value" id="out-efficiency">0</div><span style="font-size:12px;color:var(--mu)">/ 100</span>
+          </div>
+          <div class="eff-bar"><div class="eff-fill" id="effFill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="card chart-card reveal">
+        <div class="t"><span>12-month projection</span><span style="color:var(--cyan);font-size:12px">+6%/mo growth assumption</span></div>
+        <svg class="chart" id="growthChart" viewBox="0 0 440 150" preserveAspectRatio="none" height="150"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSIGHTS ============ -->
+<section class="wrap" id="insights">
+  <div class="card insights reveal">
+    <h3>✨ AI Insights</h3>
+    <div id="insightRows"></div>
+  </div>
+</section>
+
+<!-- ============ RECOMMENDATIONS ============ -->
+<section class="wrap" id="recommendations">
+  <span class="eyebrow">Recommendations</span>
+  <h2 class="section-title">Where your money is leaking</h2>
+  <p class="section-sub">Generated from your live workload profile. Each action applies instantly to the analysis above.</p>
+  <div class="rec-grid" id="recGrid"></div>
+</section>
+
+<!-- ============ CHARTS ============ -->
+<section class="wrap" id="charts">
+  <span class="eyebrow">Analytics</span>
+  <h2 class="section-title">Spend, visualized</h2>
+  <p class="section-sub">Sample analytics view — connects to your live usage data on the Team plan.</p>
+  <div style="margin-bottom:20px"><span class="badge badge-violet">Demo data</span></div>
+  <div class="chart-grid">
+    <div class="card chart-card reveal">
+      <div class="t"><span>Monthly spend</span></div>
+      <svg class="chart" id="spendChart" viewBox="0 0 440 170" preserveAspectRatio="none" height="170"></svg>
+    </div>
+    <div class="card chart-card reveal">
+      <div class="t"><span>Budget vs actual</span></div>
+      <div style="font-size:30px;font-weight:800;color:var(--wh);margin-bottom:10px" id="budgetPct">84%</div>
+      <div class="bar-track" style="height:10px;margin-bottom:10px"><div class="bar-fill" id="budgetFill" style="width:84%;background:var(--grad)"></div></div>
+      <div style="font-size:12.5px;color:var(--mu)" id="budgetLabel"></div>
+    </div>
+    <div class="card chart-card reveal">
+      <div class="t"><span>Cost breakdown by model</span></div>
+      <svg viewBox="0 0 160 160" style="width:150px;display:block;margin:0 auto" id="modelPie"></svg>
+      <div class="legend" id="modelLegend"></div>
+    </div>
+    <div class="card chart-card reveal">
+      <div class="t"><span>Provider comparison — cost / 1M output tokens</span></div>
+      <div id="providerBars"></div>
+    </div>
+    <div class="card chart-card reveal full">
+      <div class="t"><span>Top expensive agents this month</span></div>
+      <div id="agentList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REPORTS ============ -->
+<section class="wrap" id="reports">
+  <span class="eyebrow">Reports</span>
+  <h2 class="section-title">Export your analysis</h2>
+  <p class="section-sub">A board-ready summary of your current spend model, in whichever format your workflow needs.</p>
+  <div class="card panel reveal" style="max-width:640px">
+    <div class="report-preview" id="reportPreview"></div>
+    <div class="export-row">
+      <button class="btn btn-primary" id="exportPdfBtn">⬇ Export PDF</button>
+      <button class="btn" id="exportCsvBtn">Export CSV</button>
+      <button class="btn" id="exportJsonBtn">Export JSON</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING (preserved trial flow) ============ -->
+<section class="wrap" id="pricing">
+  <span class="eyebrow">Pricing</span>
+  <h2 class="section-title">Simple pricing, no surprise overages</h2>
+  <div class="toggle-row">
+    <span id="toggleMonthlyLabel" style="font-size:13px;color:var(--mu)">Monthly</span>
+    <div class="toggle on" id="billingToggle" role="switch" aria-checked="true" tabindex="0"><div class="toggle-knob"></div></div>
+    <span id="toggleYearlyLabel" style="font-size:13px;color:var(--wh)">Yearly</span>
+    <span class="badge badge-amber">Save 20%</span>
+  </div>
+  <div class="plans" id="plansGrid"></div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#top" class="logo"><span class="logo-mark">◈</span>Spanveil</a>
+      <p>AI spend intelligence and governance for teams scaling production AI.</p>
+    </div>
+    <div class="footer-col">
+      <div class="t">Product</div>
+      <ul>
+        <li><a href="#analysis">Spend analysis</a></li>
+        <li><a href="#recommendations">Recommendations</a></li>
+        <li><a href="#reports">Reports</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="t">Contact</div>
+      <ul>
+        <li><a href="mailto:spanveilai@gmail.com">spanveilai@gmail.com</a></li>
+        <li><a href="tel:+254114869861">+254 114 869 861</a></li>
+        <li><a href="https://github.com/BlueGoatLabs/spanveil" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span id="footerYear"></span>
+    <span>Built for teams who need to know where the AI budget goes.</span>
+  </div>
+</footer>
+
+<!-- Notifications panel -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">Notifications</div>
+  <div class="notif-item"><span>👋</span><div>Welcome to Spanveil — run the spend analysis to get your first insights.<div class="when">Just now</div></div></div>
+  <div class="notif-item"><span>🎯</span><div>Tip: recommendation actions apply instantly — try switching models to compare cost.<div class="when">Today</div></div></div>
+</div>
+
+<!-- Auth modal -->
+<div class="modal-overlay" id="authOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="modal-close" id="authClose" aria-label="Close">×</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabSignIn" type="button">Sign in</button>
+      <button class="auth-tab" id="tabSignUp" type="button">Create account</button>
+    </div>
+    <h3 id="authTitle" style="font-size:17px;margin-bottom:18px">Sign in to Spanveil</h3>
+    <form id="authForm">
+      <div class="auth-field">
+        <label for="authIdentifier">Email, phone, or username</label>
+        <input type="text" id="authIdentifier" class="text-input" required autocomplete="username" />
+      </div>
+      <div class="auth-field">
+        <label for="authPassword">Password</label>
+        <input type="password" id="authPassword" class="text-input" required autocomplete="current-password" minlength="8" />
+      </div>
+      <div class="auth-field" id="confirmPasswordField" style="display:none">
+        <label for="authPasswordConfirm">Confirm password</label>
+        <input type="password" id="authPasswordConfirm" class="text-input" autocomplete="new-password" minlength="8" />
+      </div>
+      <div class="auth-field">
+        <div id="recaptchaContainer"></div>
+        <p id="recaptchaFallback" style="font-size:11px;color:var(--mu);display:none">reCAPTCHA isn't configured yet — set RECAPTCHA_SITE_KEY in the script to enable it.</p>
+      </div>
+      <p class="auth-error" id="authError"></p>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Continue</button>
+    </form>
+    <p class="auth-note">This form isn't connected to an account system yet — submitting won't create a real login. Backend auth (e.g. Firebase) is the next build step.</p>
+  </div>
+</div>
+
+<!-- Command palette -->
+<div class="cmdk-overlay" id="cmdkOverlay">
+  <div class="cmdk">
+    <input type="text" id="cmdkInput" placeholder="Jump to… (Dashboard, Analysis, Reports)" autocomplete="off" />
+    <div class="cmdk-list" id="cmdkList"></div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<script>
+/* ================= DATA ================= */
+const MODELS = [
+  {id:"gpt-5",provider:"OpenAI",name:"GPT-5",inputPer1M:5,outputPer1M:15,quality:5,color:"#4d7cff"},
+  {id:"gpt-5-mini",provider:"OpenAI",name:"GPT-5 Mini",inputPer1M:0.6,outputPer1M:2.4,quality:3,color:"#4d7cff"},
+  {id:"claude-sonnet",provider:"Anthropic",name:"Claude Sonnet",inputPer1M:3,outputPer1M:15,quality:5,color:"#8b5cf6"},
+  {id:"claude-haiku",provider:"Anthropic",name:"Claude Haiku",inputPer1M:1,outputPer1M:5,quality:3,color:"#8b5cf6"},
+  {id:"gemini-pro",provider:"Google",name:"Gemini Pro",inputPer1M:1.25,outputPer1M:5,quality:4,color:"#22d3ee"},
+  {id:"gemini-flash",provider:"Google",name:"Gemini Flash",inputPer1M:0.15,outputPer1M:0.6,quality:2,color:"#22d3ee"},
+  {id:"llama-3",provider:"Meta",name:"Llama 3 (hosted)",inputPer1M:0.35,outputPer1M:0.4,quality:3,color:"#c9d1e3"},
+  {id:"deepseek",provider:"DeepSeek",name:"DeepSeek V3",inputPer1M:0.27,outputPer1M:1.1,quality:4,color:"#f87171"},
+  {id:"mistral",provider:"Mistral",name:"Mistral Large",inputPer1M:2,outputPer1M:6,quality:3,color:"#fbbf24"}
+];
+const DEMO = {
+  monthlySpend:[4200,4850,5100,6300,7050,8400],
+  monthLabels:["Feb","Mar","Apr","May","Jun","Jul"],
+  modelSplit:[{n:"Claude Sonnet",v:42,c:"#8b5cf6"},{n:"GPT-5",v:27,c:"#4d7cff"},{n:"Gemini Pro",v:16,c:"#22d3ee"},{n:"Other",v:15,c:"#69718c"}],
+  agents:[{n:"support-triage-agent",v:1840,t:"+18%"},{n:"sales-outreach-agent",v:1210,t:"+6%"},{n:"code-review-agent",v:980,t:"-4%"},{n:"data-enrichment-agent",v:640,t:"+22%"},{n:"meeting-summary-agent",v:410,t:"+2%"}],
+  budget:{used:8400,total:10000}
+};
+const PLANS = [
+  {name:"Starter",monthly:0,yearly:0,desc:"For individuals tracking a handful of agents.",features:["Up to 3 agents","Live cost analysis","1 report export / month","Email support"],cta:"Start free"},
+  {name:"Team",monthly:8200,yearly:6560,desc:"For teams that need budgets and dashboards.",features:["Unlimited agents","Full analytics & forecasting","Unlimited reports","Budgets & alerts","Role-based permissions"],cta:"Start 7-day free trial",highlight:true},
+  {name:"Enterprise",monthly:null,yearly:null,desc:"For orgs with compliance and audit-log requirements.",features:["Everything in Team","SSO & audit logs","Custom data retention","Dedicated onboarding","SLA & priority support"],cta:"Contact sales"}
+];
+
+/* ---------- Paystack config — fill these in before enabling checkout ---------- */
+const PAYSTACK_PUBLIC_KEY = ""; // e.g. "pk_live_xxxxxxxx" — paste your real public key between the quotes
+const PAYSTACK_CURRENCY = "KES";
+const CONTACT_EMAIL = "spanveilai@gmail.com";
+const SALES_EMAIL = "spanveilai@gmail.com";
+
+/* ================= HELPERS ================= */
+function fmtUSD(v){
+  const d = v < 10 ? 4 : v < 1000 ? 2 : 0;
+  return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",minimumFractionDigits:d,maximumFractionDigits:d}).format(v);
+}
+function fmtCompact(v){ return new Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:1}).format(v); }
+
+function toast(msg, tone){
+  const stack = document.getElementById("toastStack");
+  const el = document.createElement("div");
+  el.className = "toast " + (tone==="err" ? "err" : "ok");
+  el.textContent = msg;
+  stack.appendChild(el);
+  setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .3s"; setTimeout(()=>el.remove(),320); }, 3400);
+}
+
+/* Count-up animation */
+function countUp(el, target, fmt){
+  const start = el.__cur || 0;
+  const dur = 600, t0 = performance.now();
+  cancelAnimationFrame(el.__raf);
+  function tick(t){
+    const p = Math.min((t-t0)/dur, 1);
+    const eased = 1 - Math.pow(1-p, 3);
+    const val = start + (target-start)*eased;
+    el.textContent = fmt(val);
+    if (p < 1) el.__raf = requestAnimationFrame(tick);
+    else el.__cur = target;
+  }
+  el.__raf = requestAnimationFrame(tick);
+}
+
+/* Scroll reveal (progressive enhancement — everything renders even without it) */
+const hasIO = typeof IntersectionObserver !== "undefined";
+if (hasIO){
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  },{rootMargin:"-60px"});
+  document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+} else {
+  document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"));
+}
+
+/* ================= NAV ================= */
+document.getElementById("mobileToggle").addEventListener("click",()=>document.getElementById("mobileMenu").classList.toggle("open"));
+document.querySelectorAll("#mobileMenu a").forEach(a=>a.addEventListener("click",()=>document.getElementById("mobileMenu").classList.remove("open")));
+
+/* Notifications dropdown */
+const notifPanel = document.getElementById("notifPanel");
+document.getElementById("notifBtn").addEventListener("click",(e)=>{
+  e.stopPropagation();
+  notifPanel.classList.toggle("open");
+});
+document.addEventListener("click",(e)=>{
+  if(notifPanel.classList.contains("open") && !notifPanel.contains(e.target)) notifPanel.classList.remove("open");
+});
+
+/* ================= AUTH MODAL ================= */
+const RECAPTCHA_SITE_KEY = ""; // get one at google.com/recaptcha/admin, paste between quotes
+let authMode = "signin", recaptchaWidgetId = null, recaptchaLoadPromise = null;
+function loadRecaptcha(){
+  if (!RECAPTCHA_SITE_KEY) return Promise.resolve(false);
+  if (recaptchaLoadPromise) return recaptchaLoadPromise;
+  recaptchaLoadPromise = new Promise((resolve)=>{
+    window.__onRecaptchaLoad = function(){
+      try{ recaptchaWidgetId = window.grecaptcha.render("recaptchaContainer",{sitekey:RECAPTCHA_SITE_KEY}); resolve(true); }
+      catch(e){ resolve(false); }
+    };
+    const s=document.createElement("script");
+    s.src="https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit";
+    s.async=true;s.defer=true;s.onerror=()=>resolve(false);
+    document.body.appendChild(s);
+  });
+  return recaptchaLoadPromise;
+}
+function setAuthMode(mode){
+  authMode = mode;
+  document.getElementById("tabSignIn").classList.toggle("active", mode==="signin");
+  document.getElementById("tabSignUp").classList.toggle("active", mode==="signup");
+  document.getElementById("authTitle").textContent = mode==="signin" ? "Sign in to Spanveil" : "Create your Spanveil account";
+  document.getElementById("confirmPasswordField").style.display = mode==="signup" ? "block" : "none";
+  document.getElementById("authError").style.display = "none";
+}
+function openAuthModal(mode){
+  setAuthMode(mode||"signin");
+  document.getElementById("authOverlay").classList.add("open");
+  loadRecaptcha().then(ok=>{ document.getElementById("recaptchaFallback").style.display = ok ? "none" : "block"; });
+}
+function closeAuthModal(){ document.getElementById("authOverlay").classList.remove("open"); }
+document.getElementById("signInBtn").addEventListener("click", ()=>openAuthModal("signin"));
+document.getElementById("avatarBtn").addEventListener("click", ()=>openAuthModal("signin"));
+document.getElementById("avatarBtn").addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openAuthModal("signin"); } });
+document.getElementById("authClose").addEventListener("click", closeAuthModal);
+document.getElementById("authOverlay").addEventListener("click",(e)=>{ if(e.target.id==="authOverlay") closeAuthModal(); });
+document.getElementById("tabSignIn").addEventListener("click", ()=>setAuthMode("signin"));
+document.getElementById("tabSignUp").addEventListener("click", ()=>setAuthMode("signup"));
+document.getElementById("authForm").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const err = document.getElementById("authError");
+  const pw = document.getElementById("authPassword").value;
+  const pc = document.getElementById("authPasswordConfirm").value;
+  if (authMode==="signup" && pw!==pc){
+    err.textContent="Passwords don't match."; err.style.color="var(--red)"; err.style.display="block"; return;
+  }
+  if (RECAPTCHA_SITE_KEY && recaptchaWidgetId!==null && window.grecaptcha && !window.grecaptcha.getResponse(recaptchaWidgetId)){
+    err.textContent="Please complete the reCAPTCHA."; err.style.color="var(--red)"; err.style.display="block"; return;
+  }
+  err.textContent="UI preview — no account system connected yet, so nothing was saved.";
+  err.style.color="var(--amber)"; err.style.display="block";
+});
+
+/* Active nav highlight on scroll */
+const sectionIds = ["dashboard","livedata","analysis","recommendations","reports","pricing"];
+const navLinks = [...document.querySelectorAll("#mainNav a")];
+if (hasIO){
+  const navIO = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        navLinks.forEach(a=>a.classList.toggle("active", a.getAttribute("href")==="#"+e.target.id));
+      }
+    });
+  },{rootMargin:"-40% 0px -55% 0px"});
+  sectionIds.forEach(id=>{ const el=document.getElementById(id); if(el) navIO.observe(el); });
+}
+
+/* ================= CALCULATOR ================= */
+const modelSelect = document.getElementById("modelSelect");
+MODELS.forEach(m=>{
+  const o = document.createElement("option");
+  o.value = m.id; o.textContent = m.name;
+  modelSelect.appendChild(o);
+});
+modelSelect.value = "claude-sonnet";
+
+const inputIds = ["requests","agents","inputTokens","outputTokens","daysPerMonth","employees","hourlyRate","budget"];
+function getState(){
+  const model = MODELS.find(m=>m.id===modelSelect.value);
+  const s = {model};
+  inputIds.forEach(k=>s[k]=Number(document.getElementById(k).value));
+  return s;
+}
+
+function computeAll(s){
+  const totalReqDay = s.requests * Math.max(s.agents,1);
+  const costPerReq = (s.inputTokens/1e6)*s.model.inputPer1M + (s.outputTokens/1e6)*s.model.outputPer1M;
+  const monthly = costPerReq * totalReqDay * s.daysPerMonth;
+  const annual = monthly * 12;
+  const manualMin = totalReqDay * 4 * s.daysPerMonth;
+  const manualCost = (manualMin/60)*s.hourlyRate;
+  const roi = monthly>0 ? manualCost/monthly : 0;
+
+  // Savings opportunity: cheapest same-or-better quality model
+  const alt = MODELS.filter(m=>m.quality>=s.model.quality-1 && m.id!==s.model.id)
+    .map(m=>({m, cost:((s.inputTokens/1e6)*m.inputPer1M+(s.outputTokens/1e6)*m.outputPer1M)*totalReqDay*s.daysPerMonth}))
+    .sort((a,b)=>a.cost-b.cost)[0];
+  const savings = alt ? Math.max(monthly - alt.cost, 0) : 0;
+
+  const outShare = s.outputTokens/Math.max(s.inputTokens+s.outputTokens,1);
+  const roiScore = Math.min(roi/6,1);
+  const effScore = Math.round((roiScore*0.6 + (1-Math.min(outShare,.6)/.6)*0.4)*100);
+  const budgetPct = s.budget>0 ? Math.round(monthly/s.budget*100) : 0;
+  const projection = Array.from({length:12},(_,i)=>monthly*Math.pow(1.06,i));
+
+  return {monthly, annual, roi, savings, effScore, budgetPct, projection, costPerReq, alt, outShare, manualCost};
+}
+
+let R = null; // last results
+function renderAll(){
+  const s = getState();
+  inputIds.forEach(k=>document.getElementById("v-"+k).textContent = Number(document.getElementById(k).value).toLocaleString());
+  document.getElementById("providerLabel").textContent = s.model.provider;
+  R = computeAll(s);
+  R.state = s;
+
+  // Live results
+  countUp(document.getElementById("out-monthly"), R.monthly, fmtUSD);
+  countUp(document.getElementById("out-annual"), R.annual, fmtUSD);
+  countUp(document.getElementById("out-savings"), R.savings, fmtUSD);
+  document.getElementById("out-roi").textContent = R.roi.toFixed(1)+"×";
+  countUp(document.getElementById("out-efficiency"), R.effScore, v=>Math.round(v));
+  document.getElementById("effFill").style.width = Math.max(R.effScore,2)+"%";
+
+  // KPIs
+  countUp(document.querySelector('[data-kpi="spend"]'), R.monthly, fmtUSD);
+  countUp(document.querySelector('[data-kpi="savings"]'), R.savings, fmtUSD);
+  countUp(document.querySelector('[data-kpi="agents"]'), s.agents, v=>Math.round(v));
+  countUp(document.querySelector('[data-kpi="score"]'), R.effScore, v=>Math.round(v));
+  countUp(document.querySelector('[data-kpi="budget"]'), R.budgetPct, v=>Math.round(v)+"%");
+  document.querySelector('[data-kpi-delta="spend"]').textContent = fmtUSD(R.annual)+" / yr";
+  document.querySelector('[data-kpi-delta="score"]').textContent = R.effScore>=70?"healthy":R.effScore>=40?"needs attention":"at risk";
+  const bd = document.querySelector('[data-kpi-delta="budget"]');
+  bd.textContent = R.budgetPct>100?"over budget":R.budgetPct>80?"approaching cap":"within budget";
+  bd.className = "delta " + (R.budgetPct>80?"warn":"up");
+
+  drawArea("growthChart", R.projection, "#4d7cff", "#8b5cf6");
+  renderInsights();
+  renderRecs();
+  renderReportPreview();
+}
+
+/* ================= CHARTS (SVG) ================= */
+function drawArea(id, values, c1, c2){
+  const svg = document.getElementById(id);
+  const vb = svg.viewBox.baseVal, w = vb.width, h = vb.height;
+  const max = Math.max(...values,1);
+  const step = w/(values.length-1);
+  const pts = values.map((v,i)=>[i*step, h-(v/max)*(h-16)-6]);
+  const line = "M"+pts.map(p=>p.map(n=>n.toFixed(1)).join(",")).join(" L");
+  const area = line+` L${w},${h} L0,${h} Z`;
+  const gid = id+"g";
+  svg.innerHTML = `<defs>
+    <linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${c1}" stop-opacity=".35"/><stop offset="100%" stop-color="${c1}" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="${gid}s" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/>
+    </linearGradient>
+  </defs>
+  <path d="${area}" fill="url(#${gid})"/>
+  <path d="${line}" fill="none" stroke="url(#${gid}s)" stroke-width="2.5" stroke-linecap="round"/>`;
+}
+
+drawArea("spendChart", DEMO.monthlySpend, "#4d7cff", "#22d3ee");
+
+(function budgetCard(){
+  const pct = Math.round(DEMO.budget.used/DEMO.budget.total*100);
+  document.getElementById("budgetPct").textContent = pct+"%";
+  document.getElementById("budgetFill").style.width = Math.min(pct,100)+"%";
+  document.getElementById("budgetLabel").textContent = fmtUSD(DEMO.budget.used)+" of "+fmtUSD(DEMO.budget.total)+" monthly budget (demo)";
+})();
+
+(function pie(){
+  const svg = document.getElementById("modelPie");
+  const cx=80,cy=80,ro=70,ri=46; let ang=-90, out="";
+  DEMO.modelSplit.forEach(seg=>{
+    const sweep = seg.v/100*360, large = sweep>180?1:0;
+    const a1=ang*Math.PI/180, a2=(ang+sweep)*Math.PI/180;
+    out += `<path d="M${cx+ro*Math.cos(a1)},${cy+ro*Math.sin(a1)} A${ro},${ro} 0 ${large} 1 ${cx+ro*Math.cos(a2)},${cy+ro*Math.sin(a2)} L${cx+ri*Math.cos(a2)},${cy+ri*Math.sin(a2)} A${ri},${ri} 0 ${large} 0 ${cx+ri*Math.cos(a1)},${cy+ri*Math.sin(a1)} Z" fill="${seg.c}"/>`;
+    ang += sweep;
+  });
+  svg.innerHTML = out;
+  document.getElementById("modelLegend").innerHTML = DEMO.modelSplit.map(s=>`<span><span class="dot" style="background:${s.c}"></span>${s.n} ${s.v}%</span>`).join("");
+})();
+
+(function providerBars(){
+  const rows = MODELS.slice().sort((a,b)=>a.outputPer1M-b.outputPer1M);
+  const max = Math.max(...rows.map(m=>m.outputPer1M));
+  document.getElementById("providerBars").innerHTML = rows.map(m=>`
+    <div class="bar-row">
+      <span class="name">${m.name}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${(m.outputPer1M/max*100).toFixed(0)}%;background:${m.color}"></div></div>
+      <span class="amt">$${m.outputPer1M.toFixed(2)}</span>
+    </div>`).join("");
+})();
+
+document.getElementById("agentList").innerHTML = DEMO.agents.map(a=>`
+  <div class="bar-row" style="justify-content:space-between">
+    <span class="name" style="width:auto;flex:1">${a.n}</span>
+    <span class="amt" style="width:auto">${fmtUSD(a.v)}</span>
+    <span style="width:52px;text-align:right;font-weight:600;color:${a.t.startsWith('+')?'var(--red)':'var(--green)'}">${a.t}</span>
+  </div>`).join("");
+
+/* ================= INSIGHTS ================= */
+function renderInsights(){
+  const s = R.state;
+  const driver = s.outputTokens*s.model.outputPer1M > s.inputTokens*s.model.inputPer1M ? "output tokens" : "input tokens";
+  const risk = R.budgetPct>100 ? ["High","badge-red"] : R.budgetPct>80 ? ["Medium","badge-amber"] : ["Low","badge-green"];
+  const gov = Math.max(20, Math.min(95, Math.round(R.effScore*0.7 + (R.budgetPct<=100?25:5))));
+  const opp = R.alt ? `Switching comparable workloads to <b>${R.alt.m.name}</b> could save about <b>${fmtUSD(R.savings)}/mo</b>.` : `Your current model is already the most cost-efficient at this quality tier.`;
+  document.getElementById("insightRows").innerHTML = `
+    <div class="insight-row"><div class="insight-icon">💸</div><div>Your biggest cost driver is <b>${driver}</b> on <b>${s.model.name}</b> — roughly <b>${fmtUSD(R.costPerReq)}</b> per request across ${s.agents} agent${s.agents>1?"s":""}.</div></div>
+    <div class="insight-row"><div class="insight-icon">🎯</div><div>${opp}</div></div>
+    <div class="insight-row"><div class="insight-icon">⚠️</div><div>Budget risk level: <span class="badge ${risk[1]}">${risk[0]}</span> — projected spend is <b>${R.budgetPct}%</b> of your ${fmtUSD(s.budget)} monthly budget.</div></div>
+    <div class="insight-row"><div class="insight-icon">🛡️</div><div style="flex:1">AI governance score
+      <div class="gov-score">
+        <svg class="gov-ring" viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="16" fill="none" stroke="var(--line)" stroke-width="5"/>
+          <circle cx="20" cy="20" r="16" fill="none" stroke="url(#govGrad)" stroke-width="5" stroke-linecap="round"
+            stroke-dasharray="${(gov/100*100.5).toFixed(1)} 100.5" transform="rotate(-90 20 20)"/>
+          <defs><linearGradient id="govGrad"><stop offset="0%" stop-color="#4d7cff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+          <text x="20" y="24" text-anchor="middle" font-size="10" font-weight="700" fill="var(--wh)">${gov}</text>
+        </svg>
+        <span style="font-size:13px;color:var(--mu)">${gov>=70?"Strong controls posture — keep budgets and caps in place.":gov>=45?"Moderate — add per-agent budgets and output caps to improve.":"Weak — spend is loosely governed; set hard caps first."}</span>
+      </div>
+    </div></div>`;
+}
+
+/* ================= RECOMMENDATIONS ================= */
+function renderRecs(){
+  const s = R.state;
+  const recs = [];
+  if (R.alt && R.savings > R.monthly*0.05){
+    recs.push({priority:["High","badge-red"], savings:R.savings, title:`Route workloads to ${R.alt.m.name}`,
+      desc:`Comparable quality at a lower per-token rate than ${s.model.name}.`,
+      why:"Model choice is usually the single largest lever on AI spend — most workloads don't need the premium tier.",
+      action:{label:"Apply — switch model", fn:()=>{ modelSelect.value=R.alt.m.id; renderAll(); toast("Switched to "+R.alt.m.name); }}});
+  }
+  if (R.outShare > 0.35){
+    recs.push({priority:["High","badge-red"], savings:R.monthly*0.18, title:"Cap output tokens",
+      desc:"Output tokens dominate your per-request cost. Setting max_tokens and using structured outputs cuts this directly.",
+      why:"Output tokens cost 3–5× more than input tokens on most models.",
+      action:{label:"Simulate — cut outputs 30%", fn:()=>{ const el=document.getElementById("outputTokens"); el.value=Math.max(50,Math.round(el.value*0.7/50)*50); renderAll(); toast("Output tokens reduced 30% in simulation"); }}});
+  }
+  if (R.budgetPct > 80){
+    recs.push({priority:["Medium","badge-amber"], savings:0, title:"Set per-agent budget alerts",
+      desc:`You're at ${R.budgetPct}% of budget. Alerts at 80% catch runaway loops before month-end.`,
+      why:"Runaway agent loops are the most common cause of surprise AI bills.",
+      action:{label:"Included in Team plan", fn:()=>{ document.getElementById("pricing").scrollIntoView({behavior:"smooth"}); }}});
+  }
+  recs.push({priority:["Medium","badge-amber"], savings:R.monthly*0.12, title:"Cache repeated prompts",
+    desc:"Duplicate calls with identical prompts are silent waste. Prompt caching eliminates them.",
+    why:"Teams typically find 10–15% of agent calls are exact repeats.",
+    action:{label:"Simulate — 12% fewer requests", fn:()=>{ const el=document.getElementById("requests"); el.value=Math.max(10,Math.round(el.value*0.88/10)*10); renderAll(); toast("Request volume reduced 12% in simulation"); }}});
+  recs.push({priority:["Low","badge-green"], savings:0, title:"Split simple vs complex traffic",
+    desc:"Route classification and extraction to a fast tier; reserve premium models for reasoning steps.",
+    why:"Tiered routing keeps quality where it matters without paying premium rates everywhere.",
+    action:{label:"Try a cheaper tier", fn:()=>{ modelSelect.value = s.model.provider==="Anthropic"?"claude-haiku":"gpt-5-mini"; renderAll(); toast("Switched to a faster tier for comparison"); }}});
+
+  document.getElementById("recGrid").innerHTML = recs.map((r,i)=>`
+    <div class="card rec-card reveal in">
+      <div class="rec-head"><span class="badge ${r.priority[1]}">${r.priority[0]} priority</span>
+      ${r.savings>0?`<span class="rec-savings">save ~${fmtCompact(r.savings)}/mo</span>`:""}</div>
+      <h4>${r.title}</h4>
+      <p>${r.desc}</p>
+      <div class="rec-why">${r.why}</div>
+      <button class="btn rec-action" data-rec="${i}">${r.action.label}</button>
+    </div>`).join("");
+  document.querySelectorAll("[data-rec]").forEach(btn=>{
+    btn.addEventListener("click",()=>recs[Number(btn.dataset.rec)].action.fn());
+  });
+}
+
+/* ================= REPORTS ================= */
+function reportData(){
+  const s = R.state;
+  return {
+    generated: new Date().toISOString(),
+    model: s.model.name, provider: s.model.provider,
+    agents: s.agents, requestsPerDayPerAgent: s.requests,
+    inputTokensPerRequest: s.inputTokens, outputTokensPerRequest: s.outputTokens,
+    teamSize: s.employees, monthlyBudgetUSD: s.budget,
+    monthlyCostUSD: +R.monthly.toFixed(2), annualCostUSD: +R.annual.toFixed(2),
+    costPerRequestUSD: +R.costPerReq.toFixed(5),
+    savingsOpportunityUSD: +R.savings.toFixed(2),
+    roiMultiple: +R.roi.toFixed(2), efficiencyScore: R.effScore, budgetUtilizationPct: R.budgetPct
+  };
+}
+function renderReportPreview(){
+  const d = reportData();
+  document.getElementById("reportPreview").innerHTML = `
+    <h4>AI Spend Analysis — ${d.model}</h4>
+    <div class="date">${new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"})}</div>
+    <div class="report-line"><span>Monthly cost</span><b>${fmtUSD(d.monthlyCostUSD)}</b></div>
+    <div class="report-line"><span>Annual cost</span><b>${fmtUSD(d.annualCostUSD)}</b></div>
+    <div class="report-line"><span>Cost per request</span><b>${fmtUSD(d.costPerRequestUSD)}</b></div>
+    <div class="report-line"><span>Savings opportunity</span><b>${fmtUSD(d.savingsOpportunityUSD)}/mo</b></div>
+    <div class="report-line"><span>ROI multiple</span><b>${d.roiMultiple}×</b></div>
+    <div class="report-line"><span>Efficiency score</span><b>${d.efficiencyScore} / 100</b></div>
+    <div class="report-line" style="border-bottom:none"><span>Budget utilization</span><b>${d.budgetUtilizationPct}%</b></div>`;
+}
+
+function download(filename, content, mime){
+  const blob = new Blob([content], {type:mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+document.getElementById("exportCsvBtn").addEventListener("click",()=>{
+  const d = reportData();
+  const rows = Object.entries(d).map(([k,v])=>`${k},${v}`).join("\n");
+  download("spanveil-report-"+new Date().toISOString().slice(0,10)+".csv","field,value\n"+rows,"text/csv");
+  toast("CSV exported");
+});
+document.getElementById("exportJsonBtn").addEventListener("click",()=>{
+  download("spanveil-report-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify(reportData(),null,2),"application/json");
+  toast("JSON exported");
+});
+
+function loadScriptOnce(src){
+  return new Promise((res,rej)=>{
+    if(document.querySelector(`script[src="${src}"]`)){res();return;}
+    const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("load fail"));document.body.appendChild(s);
+  });
+}
+document.getElementById("exportPdfBtn").addEventListener("click", async ()=>{
+  const btn = document.getElementById("exportPdfBtn");
+  const orig = btn.textContent; btn.textContent="Generating…"; btn.disabled=true;
+  try{
+    await loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({unit:"pt",format:"a4"});
+    const d = reportData(); const m=48; let y=m;
+    doc.setFont("helvetica","bold"); doc.setFontSize(20);
+    doc.text("Spanveil — AI Spend Analysis", m, y); y+=26;
+    doc.setFont("helvetica","normal"); doc.setFontSize(10); doc.setTextColor(110,110,110);
+    doc.text(new Date().toLocaleDateString()+"  ·  "+d.model+" ("+d.provider+")", m, y); y+=30;
+    doc.setTextColor(0,0,0); doc.setFontSize(12);
+    const lines = [
+      ["Monthly cost", fmtUSD(d.monthlyCostUSD)],
+      ["Annual cost", fmtUSD(d.annualCostUSD)],
+      ["Cost per request", fmtUSD(d.costPerRequestUSD)],
+      ["Savings opportunity", fmtUSD(d.savingsOpportunityUSD)+" / mo"],
+      ["ROI multiple", d.roiMultiple+"x"],
+      ["Efficiency score", d.efficiencyScore+" / 100"],
+      ["Budget utilization", d.budgetUtilizationPct+"%"],
+      ["Agents", String(d.agents)],
+      ["Requests / day / agent", String(d.requestsPerDayPerAgent)],
+      ["Tokens per request", d.inputTokensPerRequest+" in / "+d.outputTokensPerRequest+" out"]
+    ];
+    lines.forEach(([k,v])=>{
+      doc.setFont("helvetica","normal"); doc.text(k, m, y);
+      doc.setFont("helvetica","bold"); doc.text(v, 320, y); y+=20;
+    });
+    y+=16; doc.setFontSize(9); doc.setTextColor(120,120,120);
+    doc.text("Estimates from reference list pricing. Not a certified financial audit.", m, y);
+    doc.save("spanveil-report-"+new Date().toISOString().slice(0,10)+".pdf");
+    toast("PDF exported");
+  }catch(e){ toast("PDF failed — check your connection","err"); }
+  finally{ btn.textContent=orig; btn.disabled=false; }
+});
+
+/* ================= COMMAND PALETTE ================= */
+const CMDS = [
+  {label:"Go to Dashboard", ic:"📊", fn:()=>go("dashboard")},
+  {label:"Go to Live Data", ic:"📡", fn:()=>go("livedata")},
+  {label:"Go to Spend Analysis", ic:"⚙️", fn:()=>go("analysis")},
+  {label:"Go to Recommendations", ic:"🎯", fn:()=>go("recommendations")},
+  {label:"Go to Reports", ic:"📄", fn:()=>go("reports")},
+  {label:"Go to Pricing", ic:"💳", fn:()=>go("pricing")},
+  {label:"Export PDF report", ic:"⬇", fn:()=>document.getElementById("exportPdfBtn").click()},
+  {label:"Export CSV", ic:"⬇", fn:()=>document.getElementById("exportCsvBtn").click()},
+  {label:"Export JSON", ic:"⬇", fn:()=>document.getElementById("exportJsonBtn").click()}
+];
+function go(id){ document.getElementById(id).scrollIntoView({behavior:"smooth"}); }
+const cmdkOverlay = document.getElementById("cmdkOverlay");
+const cmdkInput = document.getElementById("cmdkInput");
+let cmdkSel = 0, cmdkFiltered = CMDS;
+function openCmdk(){ cmdkOverlay.classList.add("open"); cmdkInput.value=""; cmdkSel=0; renderCmdk(); cmdkInput.focus(); }
+function closeCmdk(){ cmdkOverlay.classList.remove("open"); }
+function renderCmdk(){
+  const q = cmdkInput.value.toLowerCase();
+  cmdkFiltered = CMDS.filter(c=>c.label.toLowerCase().includes(q));
+  cmdkSel = Math.min(cmdkSel, Math.max(cmdkFiltered.length-1,0));
+  document.getElementById("cmdkList").innerHTML = cmdkFiltered.map((c,i)=>
+    `<div class="cmdk-item ${i===cmdkSel?"sel":""}" data-i="${i}"><span class="ic">${c.ic}</span>${c.label}</div>`).join("") || `<div style="padding:16px;font-size:13px;color:var(--mu)">No matches</div>`;
+  document.querySelectorAll(".cmdk-item").forEach(el=>el.addEventListener("click",()=>{ cmdkFiltered[Number(el.dataset.i)].fn(); closeCmdk(); }));
+}
+document.getElementById("cmdkHintBtn").addEventListener("click", openCmdk);
+cmdkInput.addEventListener("input", renderCmdk);
+document.addEventListener("keydown",(e)=>{
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==="k"){ e.preventDefault(); cmdkOverlay.classList.contains("open")?closeCmdk():openCmdk(); }
+  if(!cmdkOverlay.classList.contains("open")) return;
+  if(e.key==="Escape") closeCmdk();
+  if(e.key==="ArrowDown"){ e.preventDefault(); cmdkSel=Math.min(cmdkSel+1,cmdkFiltered.length-1); renderCmdk(); }
+  if(e.key==="ArrowUp"){ e.preventDefault(); cmdkSel=Math.max(cmdkSel-1,0); renderCmdk(); }
+  if(e.key==="Enter" && cmdkFiltered[cmdkSel]){ cmdkFiltered[cmdkSel].fn(); closeCmdk(); }
+});
+cmdkOverlay.addEventListener("click",(e)=>{ if(e.target===cmdkOverlay) closeCmdk(); });
+
+/* ================= LIVE DATA INGESTION ================= */
+const LIVE = { openai: null, anthropic: null };
+
+function liveConnected(){ return !!(LIVE.openai || LIVE.anthropic); }
+
+async function connectProvider(provider){
+  const keyInput = document.getElementById(provider==="openai" ? "openaiKey" : "anthropicKey");
+  const statusEl = document.getElementById(provider==="openai" ? "openaiStatus" : "anthropicStatus");
+  const btn = document.getElementById(provider==="openai" ? "connectOpenai" : "connectAnthropic");
+  const apiKey = keyInput.value.trim();
+  if (!apiKey){ toast("Paste your Admin API key first","err"); return; }
+  const expectedPrefix = provider==="openai" ? "sk-admin" : "sk-ant-admin";
+  if (!apiKey.startsWith(expectedPrefix)){
+    toast(`That doesn't look like an Admin key (should start with ${expectedPrefix}…)`,"err"); return;
+  }
+  btn.disabled = true; const orig = btn.textContent; btn.textContent = "Fetching…";
+  statusEl.textContent = "Connecting…";
+  try{
+    const resp = await fetch(`/api/usage-${provider}`,{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ apiKey, days: 30 })
+    });
+    const data = await resp.json();
+    if (!resp.ok){ throw new Error(data.error || "Provider request failed"); }
+    LIVE[provider] = data;
+    try{ sessionStorage.setItem("spanveil-key-"+provider, apiKey); }catch(e){}
+    statusEl.textContent = "Connected";
+    statusEl.className = "badge badge-green";
+    toast((provider==="openai"?"OpenAI":"Anthropic")+" connected — live data loaded");
+    renderLiveData();
+  }catch(err){
+    statusEl.textContent = "Failed";
+    statusEl.className = "badge badge-red";
+    toast(err.message,"err");
+  }finally{
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+document.getElementById("connectOpenai").addEventListener("click",()=>connectProvider("openai"));
+document.getElementById("connectAnthropic").addEventListener("click",()=>connectProvider("anthropic"));
+
+function mergedLive(){
+  const providers = [LIVE.openai, LIVE.anthropic].filter(Boolean);
+  const totalCost = providers.reduce((s,p)=>s+(p.totalCost||0),0);
+  // merge daily series by index (both are last-30d daily buckets)
+  const dayMap = {};
+  providers.forEach(p=>(p.daily||[]).forEach(d=>{
+    const k = d.ts ? String(d.ts).slice(0,10) : Math.random();
+    dayMap[k] = (dayMap[k]||0) + (d.cost||0);
+  }));
+  const daily = Object.keys(dayMap).sort().map(k=>dayMap[k]);
+  const models = providers.flatMap(p=>(p.models||[]).map(m=>({...m, provider:p.provider})));
+  return { totalCost, daily, models };
+}
+
+function renderLiveData(){
+  if (!liveConnected()) return;
+  const m = mergedLive();
+  const box = document.getElementById("liveSummary");
+  box.style.display = "block";
+  const daysWithData = Math.max(m.daily.length, 1);
+  const avg = m.totalCost / daysWithData;
+  countUp(document.getElementById("live-total"), m.totalCost, fmtUSD);
+  countUp(document.getElementById("live-avg"), avg, fmtUSD);
+  countUp(document.getElementById("live-projected"), avg*30, fmtUSD);
+  if (m.daily.length > 1) drawArea("liveChart", m.daily, "#34d399", "#22d3ee");
+
+  // model table
+  document.getElementById("liveModels").innerHTML = m.models.length ? m.models.slice(0,8).map(mm=>`
+    <div class="bar-row" style="justify-content:space-between">
+      <span class="name" style="width:auto;flex:1">${mm.model} <span style="color:var(--mu);font-size:11px">(${mm.provider})</span></span>
+      <span class="amt" style="width:auto">${fmtCompact(mm.inputTokens)} in / ${fmtCompact(mm.outputTokens)} out</span>
+    </div>`).join("") : `<p style="font-size:12.5px;color:var(--mu)">No per-model usage returned for this period.</p>`;
+
+  // take over dashboard: KPI + monthly chart + budget switch to live
+  countUp(document.querySelector('[data-kpi="spend"]'), avg*30, fmtUSD);
+  document.querySelector('[data-kpi-delta="spend"]').textContent = "live · projected month";
+  if (m.daily.length > 1) drawArea("spendChart", m.daily, "#34d399", "#22d3ee");
+  const chartsBadge = document.querySelector("#charts .badge");
+  if (chartsBadge){ chartsBadge.textContent = "Live data"; chartsBadge.className = "badge badge-green"; }
+  const s = getState();
+  const pct = s.budget>0 ? Math.round((avg*30)/s.budget*100) : 0;
+  document.getElementById("budgetPct").textContent = pct+"%";
+  document.getElementById("budgetFill").style.width = Math.min(pct,100)+"%";
+  document.getElementById("budgetLabel").textContent = fmtUSD(avg*30)+" projected of "+fmtUSD(s.budget)+" monthly budget (live)";
+}
+
+/* Reconnect from session on reload */
+(function restoreLive(){
+  ["openai","anthropic"].forEach(p=>{
+    let k = null;
+    try{ k = sessionStorage.getItem("spanveil-key-"+p); }catch(e){}
+    if (k){
+      const input = document.getElementById(p==="openai"?"openaiKey":"anthropicKey");
+      input.value = k;
+      connectProvider(p);
+    }
+  });
+})();
+
+/* ================= PRICING — preserved working trial flow ================= */
+let yearly = true;
+const TRIAL_VERIFICATION_AMOUNT = 2000; // KES 20.00 — refunded automatically after verifying the card
+
+function openMailto(email, subject){
+  window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+}
+function startTrialCheckout(email){
+  if (typeof window.PaystackPop === "undefined"){ throw new Error("Paystack script not loaded"); }
+  const handler = window.PaystackPop.setup({
+    key: PAYSTACK_PUBLIC_KEY,
+    email: email,
+    amount: TRIAL_VERIFICATION_AMOUNT,
+    currency: PAYSTACK_CURRENCY,
+    channels: ["card"],
+    ref: "spanveil-trial-"+Date.now(),
+    callback: function(response){ confirmTrial(response.reference); },
+    onClose: function(){ showPlanStatus("Team", "Checkout closed before completing card verification.", "r"); }
+  });
+  handler.openIframe();
+}
+async function confirmTrial(reference){
+  showPlanStatus("Team", "Verifying card and starting your trial…", "g");
+  try{
+    const resp = await fetch("/api/start-trial", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ reference, interval: yearly ? "yearly" : "monthly" })
+    });
+    const data = await resp.json();
+    if (!resp.ok || !data.success){
+      showPlanStatus("Team", data.error || "Couldn't start your trial — please try again or contact support.", "r");
+      return;
+    }
+    const endsAt = new Date(data.trialEndsAt).toLocaleDateString();
+    showPlanStatus("Team", `Trial started! Your card won't be charged until ${endsAt}. Cancel anytime before then.`, "g");
+    toast("Trial started 🎉");
+  }catch(e){
+    showPlanStatus("Team", "Couldn't reach the server to confirm your trial. Contact support if this persists.", "r");
+  }
+}
+function showPlanStatus(planName, message, tone){
+  document.querySelectorAll(".plan-status").forEach(el=>el.remove());
+  const card = [...document.querySelectorAll(".plan")].find(el=>el.dataset.plan===planName);
+  if(!card) return;
+  const p = document.createElement("p");
+  p.className = "plan-status "+tone;
+  p.textContent = message;
+  card.appendChild(p);
+}
+function handlePlanClick(planName){
+  document.querySelectorAll(".plan-status").forEach(el=>el.remove());
+  if (planName==="Starter"){ openMailto(CONTACT_EMAIL, "Starter plan — request access"); return; }
+  if (planName==="Enterprise"){ openMailto(SALES_EMAIL, "Enterprise plan inquiry"); return; }
+  if (!PAYSTACK_PUBLIC_KEY){
+    showPlanStatus("Team", "Checkout isn't configured yet — set PAYSTACK_PUBLIC_KEY at the top of this file, or email us to sign up manually.", "r");
+    return;
+  }
+  const email = window.prompt("Enter your email to start your 7-day free trial:");
+  if (!email) return;
+  try{ startTrialCheckout(email); }
+  catch(e){ showPlanStatus("Team", "Checkout script hasn't loaded yet — wait a moment and try again.", "r"); }
+}
+function renderPlans(){
+  document.getElementById("plansGrid").innerHTML = PLANS.map(p=>`
+    <div class="plan ${p.highlight?'highlight':''}" data-plan="${p.name}">
+      ${p.highlight?'<span class="plan-badge">Most popular</span>':''}
+      <h3>${p.name}</h3>
+      <p class="desc">${p.desc}</p>
+      <div class="price">${p.monthly===null?'Custom':'KES '+(yearly?p.yearly:p.monthly).toLocaleString()+'<span class="per"> / mo</span>'}</div>
+      ${p.highlight ? `<p style="font-size:11px;color:var(--mu);margin-top:-14px;margin-bottom:14px">${yearly?'Billed KES '+(p.yearly*12).toLocaleString()+' annually':'Billed monthly'} · 7-day free trial, card required</p>` : ''}
+      <ul>${p.features.map(f=>`<li>${f}</li>`).join("")}</ul>
+      <button class="btn ${p.highlight?'btn-primary':''}" onclick="handlePlanClick('${p.name}')">${p.cta}</button>
+    </div>`).join("");
+}
+renderPlans();
+function toggleBilling(){
+  yearly = !yearly;
+  const t = document.getElementById("billingToggle");
+  t.classList.toggle("on", yearly);
+  t.setAttribute("aria-checked", String(yearly));
+  document.getElementById("toggleMonthlyLabel").style.color = yearly ? "var(--mu)" : "var(--wh)";
+  document.getElementById("toggleYearlyLabel").style.color = yearly ? "var(--wh)" : "var(--mu)";
+  renderPlans();
+}
+document.getElementById("billingToggle").addEventListener("click", toggleBilling);
+document.getElementById("billingToggle").addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggleBilling(); } });
+
+/* ================= INIT ================= */
+document.getElementById("footerYear").textContent = "© "+new Date().getFullYear()+" Spanveil. All rights reserved.";
+inputIds.forEach(k=>document.getElementById(k).addEventListener("input", renderAll));
+modelSelect.addEventListener("change", renderAll);
+
+/* Skeleton experience: brief shimmer on first paint, then render */
+const skeletonTargets = [...document.querySelectorAll(".kpi .value, .result .value")];
+skeletonTargets.forEach(el=>el.classList.add("skeleton"));
+window.addEventListener("load", ()=>{
+  setTimeout(()=>{
+    skeletonTargets.forEach(el=>el.classList.remove("skeleton"));
+    renderAll();
+  }, 450);
+});
+/* Fallback if load already fired */
+if (document.readyState === "complete"){
+  skeletonTargets.forEach(el=>el.classList.remove("skeleton"));
+  renderAll();
+} else {
+  renderAll();
+}
+
+/* JSON-LD */
+(function(){
+  const ld = {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Spanveil","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"AI spend intelligence and governance platform.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}};
+  const s=document.createElement("script");s.type="application/ld+json";s.textContent=JSON.stringify(ld);document.head.appendChild(s);
+})();
+
+/* Paystack inline script (lazy) */
+(function(){ const s=document.createElement("script");s.src="https://js.paystack.co/v1/inline.js";s.defer=true;document.body.appendChild(s); })();
+</script>
+</body>
+</html>
