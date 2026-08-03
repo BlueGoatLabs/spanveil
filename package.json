@@ -1,0 +1,13 @@
+{
+  "name": "spanveil",
+  "version": "1.0.0",
+  "description": "AI Spend Intelligence & Governance",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static HTML project - no build step required'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  }
+}
