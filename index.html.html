@@ -247,6 +247,9 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:v
   section:not(#reports){display:none!important}
 }
 </style>
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
 </head>
 <body>
 
@@ -1261,5 +1264,6 @@ if (document.readyState === "complete"){
 /* Paystack inline script (lazy) */
 (function(){ const s=document.createElement("script");s.src="https://js.paystack.co/v1/inline.js";s.defer=true;document.body.appendChild(s); })();
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
